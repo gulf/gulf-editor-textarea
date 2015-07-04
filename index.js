@@ -1,5 +1,5 @@
 /**
- * gulf-contenteditable
+ * gulf-textare
  * Copyright (C) 2015 Marcel Klehr <mklehr@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
