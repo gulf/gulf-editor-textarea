@@ -17,7 +17,6 @@
  */
 var gulf = require('gulf')
   , textOT = require('ot-text')
-  , MutationSummary = require('mutation-summary')
  
 module.exports = function(textarea, storageAdapter) {
   var doc = new gulf.EditableDocument(storageAdapter || new gulf.MemoryAdapter, textOT)
