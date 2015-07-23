@@ -1,5 +1,5 @@
 /**
- * gulf-textare
+ * gulf-textarea
  * Copyright (C) 2015 Marcel Klehr <mklehr@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ module.exports = function(textarea, storageAdapter) {
   }
   
   // before _change() and on any edit event
-  editableDoc._collectChanges = function() {
+  doc._collectChanges = function() {
     var cs = []
       , newval = textarea.value
 
@@ -83,7 +83,7 @@ module.exports = function(textarea, storageAdapter) {
   }
   function genOp(evt) {
     console.log(evt)
-    editableDoc._collectChanges()
+    doc._collectChanges()
   }
 
   return doc
