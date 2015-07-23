@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var gulf = require('gulf')
-  , textOT = require('ot-text')
+  , textOT = require('ot-text').type
  
 module.exports = function(textarea, storageAdapter) {
   var doc = new gulf.EditableDocument(storageAdapter || new gulf.MemoryAdapter, textOT)
