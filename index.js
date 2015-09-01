@@ -20,6 +20,7 @@ var gulf = require('gulf')
  
 module.exports = function(textarea, storageAdapter) {
   var doc = new gulf.EditableDocument(storageAdapter || new gulf.MemoryAdapter, textOT)
+    , oldval
 
   // on incoming changes
   doc._change = function(newcontent, cs) {
