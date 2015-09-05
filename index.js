@@ -29,9 +29,11 @@ module.exports = function(textarea, storageAdapter) {
     var oldSel = [textarea.selectionStart, textarea.selectionEnd]
 
     // set new content
-    oldval = textarea.value = newcontent
-
-    if(cs) { // in case of a hard reset this isn't available
+    if(newcontent) {
+      oldval = textarea.value = newcontent
+    }
+    else { // in case of a hard reset this isn't available
+      oldval = textOT.apply(oldval, cs)
       // take care of selection
       var newSel = textOT.transformSelection(oldSel, cs)
       textarea.selectionStart = newSel[0]
