@@ -52,7 +52,7 @@ module.exports = function(textarea, storageAdapter) {
     // The following code is taken from shareJS:
     // https://github.com/share/ShareJS/blob/3843b26831ecb781344fb9beb1005cfdd2/lib/client/textarea.js
 
-    if (oldval === newval) return;
+    if (oldval === newval) return cb();
 
     var commonStart = 0;
     while (oldval.charAt(commonStart) === newval.charAt(commonStart)) {
@@ -90,7 +90,7 @@ module.exports = function(textarea, storageAdapter) {
   }
   function genOp(evt) {
     console.log(evt)
-    doc._collectChanges()
+    doc._collectChanges(function() {})
   }
 
   return doc
