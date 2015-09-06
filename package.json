@@ -1,6 +1,6 @@
 {
   "name": "gulf-textarea",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Convenient gulf wrapper for textareas and textinputs (uses shareaJS's textOT)",
   "main": "index.js",
   "dependencies": {},
