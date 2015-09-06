@@ -22,27 +22,30 @@ module.exports = function(textarea, storageAdapter) {
   var doc = new gulf.EditableDocument(storageAdapter || new gulf.MemoryAdapter, textOT)
     , oldval
 
+  doc._setContents = function(newcontent, cb) {
+    oldval = textarea.value = newcontent
+    cb()
+  }
+
   // on incoming changes
-  doc._change = function(newcontent, cs) {
-    console.log('_change:', newcontent, cs)
+  doc._change = function(cs, cb) {
+    console.log('_change:', cs)
+
     // remember selection
     var oldSel = [textarea.selectionStart, textarea.selectionEnd]
 
-    // set new content
-    if(newcontent) {
-      oldval = textarea.value = newcontent
-    }
-    else { // in case of a hard reset this isn't available
-      oldval = textOT.apply(oldval, cs)
-      // take care of selection
-      var newSel = textOT.transformSelection(oldSel, cs)
-      textarea.selectionStart = newSel[0]
-      textarea.selectionEnd = newSel[1]
-    }
+    // apply changes
+    oldval = textarea.value = textOT.apply(oldval, cs)
+
+    // take care of selection
+    var newSel = textOT.transformSelection(oldSel, cs)
+    textarea.selectionStart = newSel[0]
+    textarea.selectionEnd = newSel[1]
+    cb()
   }
   
   // before _change() and on any edit event
-  doc._collectChanges = function() {
+  doc._collectChanges = function(cb) {
     var cs = []
       , newval = textarea.value
 
@@ -72,6 +75,7 @@ module.exports = function(textarea, storageAdapter) {
     oldval = newval
     console.log(cs)
     this.update(cs)
+    cb()
   }
 
   // register events

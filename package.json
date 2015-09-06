@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "peerDependencies": {
-    "gulf": "2.x",
+    "gulf": "3.x",
     "ot-text": "1.x"
   },
   "repository": {
