@@ -1,5 +1,5 @@
 /**
- * gulf-textarea
+ * gulf-editor-textarea
  * Copyright (C) 2015 Marcel Klehr <mklehr@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,38 +16,67 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var gulf = require('gulf')
-  , textOT = require('ot-text').type
- 
-module.exports = function(textarea, storageAdapter) {
-  var doc = new gulf.EditableDocument(storageAdapter || new gulf.MemoryAdapter, textOT)
-    , oldval
 
-  doc._setContents = function(newcontent, cb) {
-    oldval = textarea.value = newcontent
-    cb()
+const EVENTS = ['textInput', 'keydown', 'keyup', 'cut', 'paste', 'drop', 'dragend'];
+
+class TextareaDocument extends gulf.EditableDocument {
+  constructor(opts) {
+    super(opts)
+    if (!opts.editorInstance) throw new Error('No text input was passed')
+    this.textarea = opts.editorInstance
+    this.oldval
+    
+    // register events
+    this.listener = () => {
+      this._onBeforeChange()
+    }
+    EVENTS.forEach((e) => {
+      if (textarea.addEventListener) {
+        textarea.addEventListener(e, this.listener, false);
+      } else {
+        textarea.attachEvent('on' + e, this.listener);
+      }
+    })
+  }
+
+  close() {
+    super.close()
+    
+    EVENTS.forEach((e) => {
+      if (textarea.addEventListener) {
+        textarea.removeEventListener(e, this.listener);
+      } else {
+        textarea.detachEvent('on' + e, this.listener);
+      }
+    })
+  }
+  
+  _setContent(newcontent) {
+    this.oldval = this.textarea.value = newcontent
+    return Promise.resolve()
   }
 
   // on incoming changes
-  doc._change = function(cs, cb) {
-    console.log('_change:', cs)
-
+  _onChange(cs) {
     // remember selection
     var oldSel = [textarea.selectionStart, textarea.selectionEnd]
 
     // apply changes
-    oldval = textarea.value = textOT.apply(oldval, cs)
+    this.oldval = this.textarea.value = this.ottype.apply(oldval, cs)
 
     // take care of selection
-    var newSel = textOT.transformSelection(oldSel, cs)
+    var newSel = this.ottype.transformSelection(oldSel, cs)
     textarea.selectionStart = newSel[0]
     textarea.selectionEnd = newSel[1]
-    cb()
+    
+    return Promise.resolve()
   }
   
   // before _change() and on any edit event
-  doc._collectChanges = function(cb) {
+  _onBeforeChange() {
     var cs = []
-      , newval = textarea.value
+      , oldval = this.oldval
+      , newval = this.textarea.value
 
     // The following code is taken from shareJS:
     // https://github.com/share/ShareJS/blob/3843b26831ecb781344fb9beb1005cfdd2/lib/client/textarea.js
@@ -72,26 +101,11 @@ module.exports = function(textarea, storageAdapter) {
       cs.push(newval.slice(commonStart, newval.length - commonEnd));
     }
 
-    oldval = newval
-    console.log(cs)
-    this.update(cs)
-    cb()
+    this.oldval = newval
+    this.submitChange(cs)
+    
+    return Promise.resolve()
   }
-
-  // register events
-  var eventNames = ['textInput', 'keydown', 'keyup', 'cut', 'paste', 'drop', 'dragend'];
-  for (var i = 0; i < eventNames.length; i++) {
-    var e = eventNames[i];
-    if (textarea.addEventListener) {
-      textarea.addEventListener(e, genOp, false);
-    } else {
-      textarea.attachEvent('on' + e, genOp);
-    }
-  }
-  function genOp(evt) {
-    console.log(evt)
-    doc._collectChanges(function() {})
-  }
-
-  return doc
 }
+
+module.exports = TextareaDocument
