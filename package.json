@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marcelklehr/gulf-editor-textarea.git"
+    "url": "git+https://github.com/gulf/gulf-editor-textarea.git"
   },
   "keywords": [
     "operational transformation",
@@ -37,7 +37,7 @@
   "author": "Marcel Klehr <mklehr@gmx.net>",
   "license": "LGPL-3.0",
   "bugs": {
-    "url": "https://github.com/marcelklehr/gulf-editor-textarea/issues"
+    "url": "https://github.com/gulf/gulf-editor-textarea/issues"
   },
-  "homepage": "https://github.com/marcelklehr/gulf-editor-textarea#readme"
+  "homepage": "https://github.com/gulf/gulf-editor-textarea#readme"
 }

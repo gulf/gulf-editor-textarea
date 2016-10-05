@@ -1,5 +1,5 @@
 # gulf-editor-textarea
-[Gulf](http://github.com/marcelklehr/gulf#readme) bindings for textareas and text inputs
+[Gulf](http://github.com/gulf/gulf#readme) bindings for textareas and text inputs
 
  * Compatible with gulf v5 only! (For gulf v4 check out `gulf-textarea` on npm)
 
