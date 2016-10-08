@@ -6,20 +6,17 @@
 ## Install
 
 ```
-npm install --save gulf gulf-editor-textarea ot-text
+npm install --save gulf-editor-textarea
 ```
 
 ## Usage
 
 ```
-const textOT = require('ot-text').type
 const TextareaDocument = require('gulf-editor-textarea')
 
 var textarea = document.querySelecor('textarea#doc')
 var doc = new TextareaDocument({
-  storageAdapter: new gulf.MemoryAdapter
-, ottype: textOT
-, editorInstance: textarea
+  editorInstance: document.querySelecor('textarea#doc')
 })
 
 stream.pipe(doc.masterLink()).pipe(stream)
@@ -28,8 +25,8 @@ stream.pipe(doc.masterLink()).pipe(stream)
 ## API
 ### class TextareaDocument({editorInstance:HTMLElement, ...}) extends gulf.EditableDocument
   * `editorInstance` -- a texarea Element or an `<input type="text">`to be wired up with gulf
-  * `storageAdapter` -- a gulf storage adapter
-  * `ottype` -- the OT type to use, you'll want `ot-text` here as shown above.
+  * `storageAdapter` -- (optional) a gulf storage adapter. Default: `gulf.MemoryAdapter`
+  * `ottype` -- (optional) the OT type to use. Default: `ot-text`
 
 ## Legal
 (c) 2015-2016 by Marcel Klehr

@@ -16,13 +16,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var gulf = require('gulf')
+  , textOT = require('ot-text').type
 
 const EVENTS = ['textInput', 'keydown', 'keyup', 'cut', 'paste', 'drop', 'dragend'];
 
 class TextareaDocument extends gulf.EditableDocument {
   constructor(opts) {
+    opts.ottype = opts.ottype || textOT
     super(opts)
-    if (!opts.editorInstance) throw new Error('No text input was passed')
+    if (!opts.editorInstance) throw new Error('No text input element was passed')
     this.textarea = opts.editorInstance
     this.oldval
     
