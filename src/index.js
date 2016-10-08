@@ -26,7 +26,7 @@ class TextareaDocument extends gulf.EditableDocument {
     super(opts)
     if (!opts.editorInstance) throw new Error('No text input element was passed')
     this.textarea = opts.editorInstance
-    this.oldval
+    this.oldval = ''
     
     // register events
     this.listener = () => {
